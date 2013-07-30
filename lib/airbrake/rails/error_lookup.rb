@@ -16,15 +16,15 @@ module Airbrake
         result = rescue_action_locally_without_airbrake(exception)
 
         if Airbrake.configuration.development_lookup
-          path   = File.join(File.dirname(__FILE__), '..', '..', 'templates', 'rescue.erb')
+          path = File.join(File.dirname(__FILE__), '..', '..', 'templates', 'rescue.erb')
           notice = Airbrake.build_lookup_hash_for(exception, airbrake_request_data)
 
           result << @template.render(
-            :file          => path,
-            :use_full_path => false,
-            :locals        => { :host    => Airbrake.configuration.host,
-                                :api_key => Airbrake.configuration.api_key,
-                                :notice  => notice })
+              :file => path,
+              :use_full_path => false,
+              :locals => {:host => Airbrake.configuration.host,
+                          :api_key => Airbrake.configuration.api_key,
+                          :notice => notice})
         end
 
         result

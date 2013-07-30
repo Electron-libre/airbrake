@@ -23,7 +23,7 @@ module Airbrake
       end
 
       def airbrake_ignore_user_agent? #:nodoc:
-        # Rails 1.2.6 doesn't have request.user_agent, so check for it here
+                                      # Rails 1.2.6 doesn't have request.user_agent, so check for it here
         user_agent = request.respond_to?(:user_agent) ? request.user_agent : request.env["HTTP_USER_AGENT"]
         Airbrake.configuration.ignore_user_agent.flatten.any? { |ua| ua === user_agent }
       end

@@ -27,10 +27,10 @@ module Airbrake
 
       def after_airbrake_handler(env, exception)
         if defined? env["action_controller.instance"].
-          rescue_action_in_public_without_airbrake
+            rescue_action_in_public_without_airbrake
 
           env["action_controller.instance"].
-            rescue_action_in_public_without_airbrake(exception)
+              rescue_action_in_public_without_airbrake(exception)
         end
       end
 
@@ -44,15 +44,15 @@ module Airbrake
 
       def request_data(env)
         env["action_controller.instance"].try(:airbrake_request_data) ||
-          {:rack_env => env}
+            {:rack_env => env}
       end
 
       def ignored_user_agent?(env)
         true if Airbrake.
-          configuration.
-          ignore_user_agent.
-          flatten.
-          any? { |ua| ua === env['HTTP_USER_AGENT'] }
+            configuration.
+            ignore_user_agent.
+            flatten.
+            any? { |ua| ua === env['HTTP_USER_AGENT'] }
       end
     end
   end

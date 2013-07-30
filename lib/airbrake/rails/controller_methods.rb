@@ -4,13 +4,13 @@ module Airbrake
 
       def airbrake_request_data
         {
-          :parameters       => airbrake_filter_if_filtering(params.to_hash),
-          :session_data     => airbrake_filter_if_filtering(airbrake_session_data),
-          :controller       => params[:controller],
-          :action           => params[:action],
-          :url              => airbrake_request_url,
-          :cgi_data         => airbrake_filter_if_filtering(request.env),
-          :user             => airbrake_current_user
+            :parameters => airbrake_filter_if_filtering(params.to_hash),
+            :session_data => airbrake_filter_if_filtering(airbrake_session_data),
+            :controller => params[:controller],
+            :action => params[:action],
+            :url => airbrake_request_url,
+            :cgi_data => airbrake_filter_if_filtering(request.env),
+            :user => airbrake_current_user
         }
       end
 
@@ -33,20 +33,20 @@ module Airbrake
       end
 
       def airbrake_ignore_user_agent? #:nodoc:
-        # Rails 1.2.6 doesn't have request.user_agent, so check for it here
+                                      # Rails 1.2.6 doesn't have request.user_agent, so check for it here
         user_agent = request.respond_to?(:user_agent) ? request.user_agent : request.env["HTTP_USER_AGENT"]
         Airbrake.configuration.ignore_user_agent.flatten.any? { |ua| ua === user_agent }
       end
 
 
       def airbrake_filter_if_filtering(hash)
-        return hash if ! hash.is_a?(Hash)
+        return hash if !hash.is_a?(Hash)
 
 
         if respond_to?(:filter_parameters) # Rails 2
           filter_parameters(hash)
-        # elsif defined?(ActionDispatch::Http::ParameterFilter) # Rails 3
-        #   ActionDispatch::Http::ParameterFilter.new(::Rails.application.config.filter_parameters).filter(hash)
+                                           # elsif defined?(ActionDispatch::Http::ParameterFilter) # Rails 3
+                                           #   ActionDispatch::Http::ParameterFilter.new(::Rails.application.config.filter_parameters).filter(hash)
         else
           hash
         end
@@ -77,7 +77,9 @@ module Airbrake
       end
 
       def airbrake_current_user
-        user = begin current_user rescue current_member end
+        user = begin
+          current_user rescue current_member
+        end
         h = {}
         return h if user.nil?
         Airbrake.configuration.user_attributes.map(&:to_sym).each do |attr|
